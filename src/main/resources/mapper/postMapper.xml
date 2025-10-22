@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.app.threetier.mapper.PostMapper">
+
+<!--  1. 게시글 등록 -->
+    <insert id="insert" parameterType="PostVO">
+        INSERT INTO TBL_POST(ID, POST_TITLE, POST_CONTENT, MEMBER_ID)
+        VALUES(SEQ_POST.NEXTVAL, #{postTitle}, #{postContent}, #{memberId})
+    </insert>
+
+<!--    2. 게시글 목록(JOIN - 작성자 이름, 작성자 이메일)-->
+    <select id="selectAll" resultType="PostDTO">
+        SELECT TBP.ID, TBB.MEMBER_NAME, TBB.MEMBER_EMAIL, TBP.POST_TITLE, TBP.POST_READ_COUNT
+        FROM TBL_POST TBP
+        JOIN TBL_MEMBER TBB
+        ON TPP.MEMBER_ID = TBB.ID
+    </select>
+
+<!--    3. 게시글 상세 조회(JOIN - 작성자 이름, 작성자 이메일)-->
+    <select id="select" parameterType="Long" resultType="PostDTO">
+        SELECT TBP.ID, TBB.MEMBER_NAME, TBB.MEMBER_EMAIL, TBP.POST_TITLE, TBP.POST_CONTENT ,TBP.POST_READ_COUNT
+        FROM TBL_POST TBP
+        JOIN TBL_MEMBER TBB
+        ON TPP.MEMBER_ID = TBB.ID
+        WHERE TBP.ID = #{id}
+    </select>
+
+<!--    3-1 조회수 +1-->
+    <update id="updateReadCount" parameterType="Long">
+        UPDATE TBL_POST
+        SET POST_READ_COUNT = POST_READ_COUNT + 1
+        WHERE ID = #{id}
+    </update>
+
+
+<!--    4. 게시글 수정-->
+
+<!--    5. 게시글 삭제-->
+
+</mapper>

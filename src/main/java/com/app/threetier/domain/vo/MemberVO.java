@@ -1,4 +1,4 @@
-package com.app.threetier.domain;
+package com.app.threetier.domain.vo;
 
 import lombok.Data;
 
