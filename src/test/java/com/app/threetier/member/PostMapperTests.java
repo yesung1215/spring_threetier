@@ -29,7 +29,33 @@ public class PostMapperTests {
     @Test
     public void selectAll(){
         PostDTO postDTO = new PostDTO();
-        postMapper.selectAll();
+        log.info("{}",postMapper.selectAll());
+    }
+
+    @Test
+    public void select(){
+        PostDTO postDTO = new PostDTO();
+        log.info("{}", postMapper.select(9L));
+    }
+
+    @Test
+    public void updateReadCount(){
+        PostDTO postDTO = new PostDTO();
+        postMapper.updateReadCount(10L);
+    }
+
+    @Test
+    public void update(){
+        PostVO postVO = new PostVO();
+        postVO.setId(10L);
+        postVO.setPostTitle("테스트 수정");
+        postVO.setPostContent("무슨 내용쓰지");
+        postMapper.update(postVO);
+    }
+
+    @Test
+    public void delete(){
+        postMapper.delete(9L);
     }
 
 }

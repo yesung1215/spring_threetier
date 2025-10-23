@@ -22,13 +22,40 @@ public class PostDAOTests {
         postVO.setPostTitle("다오 제목 테스트1");
         postVO.setPostContent("다오 내용 테스트1");
         postVO.setMemberId(1L);
-        postDAO.insert(postVO);
+        Long postId = postDAO.insert(postVO);
+        log.info("{}", postId);
     }
 
     @Test
     public void selectAll(){
         PostDTO postDTO = new PostDTO();
-        postDAO.selectAll();
+        log.info("{}", postDAO.selectAll());
+    }
+
+    @Test
+    public void select(){
+        PostDTO postDTO = new PostDTO();
+        log.info("{}", postDAO.select(14L));
+    }
+
+    @Test
+    public void updateReadCount(){
+        PostDTO postDTO = new PostDTO();
+        postDAO.updateReadCount(9L);
+    }
+
+    @Test
+    public void update(){
+        PostVO postVO = new PostVO();
+        postVO.setId(10L);
+        postVO.setPostTitle("다오 테스트");
+        postVO.setPostContent(postVO.getPostContent());
+        postDAO.update(postVO);
+    }
+
+    @Test
+    public void delete(){
+        postDAO.delete(10L);
     }
 
 }

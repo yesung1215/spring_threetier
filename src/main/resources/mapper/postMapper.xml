@@ -4,8 +4,11 @@
 
 <!--  1. 게시글 등록 -->
     <insert id="insert" parameterType="PostVO">
+        <selectKey keyProperty="id" resultType="Long" order="BEFORE">
+            SELECT SEQ_POST.NEXTVAL FROM DUAL
+        </selectKey>
         INSERT INTO TBL_POST(ID, POST_TITLE, POST_CONTENT, MEMBER_ID)
-        VALUES(SEQ_POST.NEXTVAL, #{postTitle}, #{postContent}, #{memberId})
+        VALUES(#{id}, #{postTitle}, #{postContent}, #{memberId})
     </insert>
 
 <!--    2. 게시글 목록(JOIN - 작성자 이름, 작성자 이메일)-->
@@ -13,7 +16,8 @@
         SELECT TBP.ID, TBB.MEMBER_NAME, TBB.MEMBER_EMAIL, TBP.POST_TITLE, TBP.POST_READ_COUNT
         FROM TBL_POST TBP
         JOIN TBL_MEMBER TBB
-        ON TPP.MEMBER_ID = TBB.ID
+        ON TBP.MEMBER_ID = TBB.ID
+        ORDER BY TBP.ID DESC
     </select>
 
 <!--    3. 게시글 상세 조회(JOIN - 작성자 이름, 작성자 이메일)-->
@@ -21,7 +25,7 @@
         SELECT TBP.ID, TBB.MEMBER_NAME, TBB.MEMBER_EMAIL, TBP.POST_TITLE, TBP.POST_CONTENT ,TBP.POST_READ_COUNT
         FROM TBL_POST TBP
         JOIN TBL_MEMBER TBB
-        ON TPP.MEMBER_ID = TBB.ID
+        ON TBP.MEMBER_ID = TBB.ID
         WHERE TBP.ID = #{id}
     </select>
 
@@ -34,7 +38,16 @@
 
 
 <!--    4. 게시글 수정-->
+    <update id="update" parameterType="PostVO">
+        UPDATE TBL_POST
+        SET POST_TITLE = #{postTitle}, POST_CONTENT = #{postContent}
+        WHERE ID = #{id}
+    </update>
 
 <!--    5. 게시글 삭제-->
+    <delete id="delete" parameterType="Long">
+        DELETE FROM TBL_POST
+        WHERE ID = #{id}
+    </delete>
 
 </mapper>

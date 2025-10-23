@@ -2,7 +2,7 @@ package com.app.threetier.service;
 
 import com.app.threetier.domain.dto.PostDTO;
 import com.app.threetier.domain.vo.PostVO;
-import com.app.threetier.mapper.PostMapper;
+import com.app.threetier.exception.PostException;
 import com.app.threetier.repository.PostDAO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,8 +20,9 @@ public class PostServiceImpl implements PostService {
 
 //    게시글 작성
     @Override
-    public void write(PostVO postVO) {
-        postDAO.insert(postVO);
+    public Long write(PostVO postVO) {
+        Long writedPostId = postDAO.insert(postVO);
+        return writedPostId;
     }
 
 //    게시글 목록
@@ -30,10 +31,22 @@ public class PostServiceImpl implements PostService {
         return postDAO.selectAll();
     }
 
+//   게시글 조회
     @Override
-    public Optional<PostDTO> select(Long id) {
+    public PostDTO select(Long id) {
         postDAO.updateReadCount(id);
-        return postDAO.select(id);
+        return postDAO.select(id).orElseThrow(() -> new PostException("해당 게시물 없음"));
     }
 
+//    게시글 수정
+    @Override
+    public void update(PostVO postVO) {
+        postDAO.update(postVO);
+    }
+
+//    게시글 삭제
+    @Override
+    public void delete(Long id) {
+        postDAO.delete(id);
+    }
 }

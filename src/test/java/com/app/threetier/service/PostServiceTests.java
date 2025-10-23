@@ -28,4 +28,27 @@ public class PostServiceTests {
         PostDTO postDTO = new PostDTO();
         postService.selectAll();
     }
+
+    @Test
+    public void select(){
+        PostDTO postDTO = new PostDTO();
+        postService.select(11L);
+    }
+
+    @Test
+    public void update(){
+        PostVO postVO = new PostVO();
+        postVO.setId(14L);
+        postVO.setPostTitle("서비스 테스트");
+        postVO.setPostContent("수고요");
+        postService.update(postVO);
+    }
+
+    @Test
+    public void delete(){
+        postService.delete(11L);
+    }
+
+
+
 }

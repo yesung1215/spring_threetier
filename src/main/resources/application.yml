@@ -22,6 +22,8 @@ spring:
     cache: false
     suffix: .html
   mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
     cors:
       mappings:
         "/**":
